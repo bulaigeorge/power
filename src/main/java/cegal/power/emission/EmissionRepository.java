@@ -15,11 +15,15 @@ public class EmissionRepository {
         return (List<Emission>) jpaEmissionRepository.findAll();
     }
 
+    public Emission findByType(String type) {
+        return jpaEmissionRepository.getByType(type);
+    }
+
     public Emission save(Emission emission) {
         return jpaEmissionRepository.save(emission);
     }
 
-    public void deleteById(String id) {
-        jpaEmissionRepository.deleteById(id);
+    public void deleteByType(String type) {
+        jpaEmissionRepository.deleteByType(type);
     }
 }

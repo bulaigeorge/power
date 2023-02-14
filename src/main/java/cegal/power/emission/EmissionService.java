@@ -16,12 +16,7 @@ public class EmissionService {
     }
 
     public Emission findEmission(String type) {
-        List<Emission> emission =  emissionRepository.findAll()
-                .stream()
-                .filter(e -> e.getType().equals(type))
-                .toList();
-
-        return emission.size() == 0 ? null : emission.get(0);
+        return emissionRepository.findByType(type);
     }
 
     public Emission saveEmission(Emission emission) {
@@ -29,12 +24,6 @@ public class EmissionService {
     }
 
     public void deleteByType(String type) {
-        Emission deleted =  emissionRepository.findAll()
-                .stream()
-                .filter(e -> e.getType().equals(type))
-                .toList()
-                .get(0);
-
-        emissionRepository.deleteById(String.valueOf(deleted.getId()));
+        emissionRepository.deleteByType(type);
     }
 }
