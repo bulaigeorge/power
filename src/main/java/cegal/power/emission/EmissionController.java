@@ -21,10 +21,11 @@ public class EmissionController {
     }
     @GetMapping("/{type}")
     ResponseEntity<Emission> findEmission(@PathVariable String type) {
-        if (emissionService.findEmission(type) == null) {
+        Emission emission = emissionService.findEmission(type);
+        if (emission == null) {
             return ResponseEntity.notFound().build();
         }
-        return ResponseEntity.ok(emissionService.findEmission(type));
+        return ResponseEntity.ok(emission);
     }
 
     @PostMapping

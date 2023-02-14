@@ -18,4 +18,12 @@ public class LocationRepository {
     public Location save(Location location) {
         return jpaLocationRepository.save(location);
     }
+
+    public Location findById(String id) {
+        return jpaLocationRepository.findById(id).orElse(null);
+    }
+
+    public void deleteById(String id) {
+        jpaLocationRepository.deleteById(id);
+    }
 }
