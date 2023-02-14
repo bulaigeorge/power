@@ -18,4 +18,8 @@ public class EmissionRepository {
     public Emission save(Emission emission) {
         return jpaEmissionRepository.save(emission);
     }
+
+    public void deleteById(String id) {
+        jpaEmissionRepository.deleteById(id);
+    }
 }

@@ -1,5 +1,6 @@
 package cegal.power.location;
 
+import cegal.power.emission.EmissionService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -10,6 +11,8 @@ public class LocationService {
 
     @Autowired
     private LocationRepository locationRepository;
+    @Autowired
+    EmissionService emissionService;
 
     public List<Location> findAllLocations() {
         return locationRepository.findAll();
