@@ -19,6 +19,10 @@ public class LocationRepository {
         return jpaLocationRepository.save(location);
     }
 
+    public List<Location> saveAll(List<Location> locations) {
+        return (List<Location>) jpaLocationRepository.saveAll(locations);
+    }
+
     public Location findById(String id) {
         return jpaLocationRepository.findById(id).orElse(null);
     }

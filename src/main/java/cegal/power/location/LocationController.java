@@ -1,7 +1,5 @@
 package cegal.power.location;
 
-
-import cegal.power.emission.Emission;
 import cegal.power.location.LocationDTOs.LocationDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -23,7 +21,7 @@ public class LocationController {
         return ResponseEntity.ok(locationService.findAllLocations());
     }
 
-    @GetMapping("/id")
+    @GetMapping("/{id}")
     ResponseEntity<Location> findLocationById(@PathVariable String id) {
         Location location = locationService.findById(id);
         if (location == null) {
@@ -48,6 +46,25 @@ public class LocationController {
             return ResponseEntity.badRequest().build();
         }
         return ResponseEntity.created(URI.create("api/location/" + created.getId())).body(created);
+    }
+
+    @PostMapping("/all")
+    ResponseEntity<List<Location>> saveAllLocations(@RequestBody List<LocationDTO> locationsDTO) {
+        List<Location> locations = locationsDTO.stream().map(locationDTO -> new Location(locationDTO.month(),
+                String.valueOf(locationDTO.year()),
+                locationDTO.city(),
+                locationDTO.power(),
+                locationDTO.unitPrice(),
+                locationDTO.units(),
+                locationDTO.source())).toList();
+
+        List<Location> created;
+        try {
+            created = locationService.saveAll(locations);
+        } catch (Exception e) {
+            return ResponseEntity.badRequest().build();
+        }
+        return ResponseEntity.created(URI.create("api/location/")).body(created);
     }
 
     @PutMapping("/{id}")

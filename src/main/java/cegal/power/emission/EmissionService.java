@@ -23,6 +23,10 @@ public class EmissionService {
         return emissionRepository.save(emission);
     }
 
+    public List<Emission> saveAll(List<Emission> emissions) {
+        return emissionRepository.saveAll(emissions);
+    }
+
     public void deleteByType(String type) {
         emissionRepository.deleteByType(type);
     }
