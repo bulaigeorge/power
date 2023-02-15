@@ -15,6 +15,14 @@ public class LocationRepository {
         return (List<Location>) jpaLocationRepository.findAll();
     }
 
+    public List<Location> findLocationsByCity(String city) {
+        return jpaLocationRepository.getByCity(city);
+    }
+
+    public List<Location> findLocationsByCityAndMonth(String city, String month) {
+        return jpaLocationRepository.getByCityAndMonth(city, month);
+    }
+
     public Location save(Location location) {
         return jpaLocationRepository.save(location);
     }

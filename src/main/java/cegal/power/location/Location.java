@@ -89,4 +89,21 @@ public class Location {
     public void setSource(String source) {
         this.source = source;
     }
+
+    @Override
+    public boolean equals(Object o) {
+        if (o == this) {
+            return true;
+        }
+        if (!(o instanceof Location location))
+            return false;
+
+        return month.equals(location.getMonth()) &&
+                year.equals(location.getYear()) &&
+                city.equals(location.getCity()) &&
+                powerType.equals(location.getPowerType()) &&
+                unitPrice == location.getUnitPrice() &&
+                units == location.getUnits() &&
+                source.equals(location.getSource());
+    }
 }

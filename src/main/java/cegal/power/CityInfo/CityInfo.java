@@ -16,7 +16,7 @@ public class CityInfo {
     private String city;
     private int totalConsumption, totalEmission, totalCost;
 
-    private List<String> emissionPerMonth;
+    private List<String> months;
 
     public CityInfo() {};
 
@@ -25,7 +25,7 @@ public class CityInfo {
         this.totalConsumption = totalConsumption;
         this.totalEmission = totalEmission;
         this.totalCost = totalCost;
-        this.emissionPerMonth = new ArrayList<>();
+        this.months = new ArrayList<>();
     }
 
     public String getCity() {
@@ -68,11 +68,11 @@ public class CityInfo {
         this.totalCost = totalCost;
     }
 
-    public List<String> getEmissionPerMonth() {
-        return emissionPerMonth;
+    public List<String> getMonths() {
+        return months;
     }
 
-    public void setEmissionPerMonth(List<String> emissionPerMonth) {
-        this.emissionPerMonth = emissionPerMonth;
+    public void setMonths(List<String> emissionPerMonth) {
+        this.months = emissionPerMonth;
     }
 }

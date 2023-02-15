@@ -10,11 +10,13 @@ public class Emission {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
-    private String type, emission;
+    private String type;
+
+    private int emission;
 
     public Emission() {}
 
-    public Emission(String type, String emission) {
+    public Emission(String type, int emission) {
         this.type = type;
         this.emission = emission;
     }
@@ -35,11 +37,11 @@ public class Emission {
         this.type = type;
     }
 
-    public String getEmission() {
+    public int getEmission() {
         return emission;
     }
 
-    public void setEmission(String emission) {
+    public void setEmission(int emission) {
         this.emission = emission;
     }
 }

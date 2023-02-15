@@ -1,6 +1,7 @@
 package cegal.power.emission;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -31,6 +32,10 @@ public class EmissionController {
 
     @PostMapping
     ResponseEntity<Emission> saveEmission(@RequestBody Emission emission) {
+        Emission found = emissionService.findEmission(emission.getType());
+        if (found != null) {
+            return new ResponseEntity<>(HttpStatus.CONFLICT);
+        }
         Emission created;
         try {
             created = emissionService.saveEmission(emission);

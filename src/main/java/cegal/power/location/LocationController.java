@@ -2,6 +2,7 @@ package cegal.power.location;
 
 import cegal.power.location.LocationDTOs.LocationDTO;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -31,7 +32,7 @@ public class LocationController {
     }
 
     @PostMapping
-    ResponseEntity<Location> saveLocation(@RequestBody LocationDTO locationDTO) {
+    ResponseEntity<?> saveLocation(@RequestBody LocationDTO locationDTO) {
         Location location = new Location(locationDTO.month(),
                 String.valueOf(locationDTO.year()),
                 locationDTO.city(),
@@ -39,6 +40,10 @@ public class LocationController {
                 locationDTO.unitPrice(),
                 locationDTO.units(),
                 locationDTO.source());
+
+        if (locationService.findAllLocations().contains(location)) {
+            return new ResponseEntity<Error>(HttpStatus.CONFLICT);
+        };
         Location created;
         try {
             created = locationService.saveLocation(location);
