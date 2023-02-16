@@ -10,7 +10,9 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.web.client.TestRestTemplate;
 import org.springframework.http.HttpEntity;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
+import org.springframework.http.ResponseEntity;
 
 
 import java.util.ArrayList;
@@ -44,59 +46,59 @@ class EmissionControllerTest {
         emissions.add(wind);
         emissions.add(coal);
         //act
-        Emission[] mockResponse = restTemplate.getForEntity(baseUri + configPort + "/api/emission", Emission[].class).getBody();
+        ResponseEntity<Emission[]> response = restTemplate.getForEntity(baseUri + configPort + "/api/emission", Emission[].class);
         //assert
-        assertEquals(emissions.size(), mockResponse.length);
+        assertEquals(emissions.size(), response.getBody().length);
+        assertEquals(200, response.getStatusCode().value());
     }
 
     @Test
     @Order(1)
     void ShouldFindEmissionByType() {
-        //arrange
         //act
-        Emission mockResponse = restTemplate.getForEntity(baseUri + configPort + "/api/emission/hydro", Emission.class).getBody();
+        ResponseEntity<Emission> response = restTemplate.getForEntity(baseUri + configPort + "/api/emission/hydro", Emission.class);
         //assert
-        assertNotNull(mockResponse);
-        assertEquals(hydro.getType(), mockResponse.getType());
+        assertNotNull(response);
+        assertEquals(hydro.getType(), response.getBody().getType());
+        assertEquals(200, response.getStatusCode().value());
     }
 
     @Test
     @Order(2)
     void ShouldSaveEmission() {
-        //arrange
         //act
-        Emission response = restTemplate.postForEntity(baseUri + configPort + "/api/emission", coal, Emission.class).getBody();
+        ResponseEntity<Emission> response = restTemplate.postForEntity(baseUri + configPort + "/api/emission", coal, Emission.class);
         //assert
-        assertEquals(coal.getEmission(), response.getEmission());
+        assertEquals(coal.getEmission(), response.getBody().getEmission());
+        assertEquals(201, response.getStatusCode().value());
     }
 
     @Test
     @Order(2)
     void saveAllEmissions() {
-        //arrange
         //act
-        Emission[] mockResponse = restTemplate.postForEntity(baseUri + configPort + "/api/emission/all", emissions, Emission[].class).getBody();
+        ResponseEntity<Emission[]> response = restTemplate.postForEntity(baseUri + configPort + "/api/emission/all", emissions, Emission[].class);
         //assert
-        assertEquals(emissions.size(), mockResponse.length);
+        assertEquals(emissions.size(), response.getBody().length);
+        assertEquals(201, response.getStatusCode().value());
     }
 
     @Test
     @Order(3)
     void ShouldUpdateEmission() {
-        //arrange
         //act
-        Emission response = restTemplate.exchange(baseUri + configPort + "/api/emission", HttpMethod.PUT, new HttpEntity<>(wind), Emission.class).getBody();
+        ResponseEntity<Emission> response = restTemplate.exchange(baseUri + configPort + "/api/emission", HttpMethod.PUT, new HttpEntity<>(wind), Emission.class);
         //assert
-        assertEquals(wind.getEmission(), response.getEmission());
+        assertEquals(wind.getEmission(), response.getBody().getEmission());
+        assertEquals(200, response.getStatusCode().value());
     }
 
-    /*@Test
-    void deleteEmission() {
-        //arrange
+    @Test
+    void ShouldReturn204ForDeleteEmission() {
         //act
-        restTemplate.delete(baseUri + configPort + "/api/emission/nuclear");
+        ResponseEntity<Emission> response = restTemplate.exchange(baseUri + configPort + "/api/emission/nuclear", HttpMethod.DELETE, new HttpEntity<Emission>(new HttpHeaders()), Emission.class);
         //assert
-
-    }*/
+        assertEquals(204, response.getStatusCode().value());
+    }
 
 }
