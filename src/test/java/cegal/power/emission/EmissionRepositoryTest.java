@@ -1,8 +1,12 @@
 package cegal.power.emission;
 
+import org.assertj.core.util.Arrays;
 import org.junit.jupiter.api.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -14,31 +18,48 @@ class EmissionRepositoryTest {
     private JpaEmissionRepository jpaEmissionRepository;
 
     @Test
-    void findAll() {
+    @Order(2)
+    void ShouldFindAllEmissions() {
+        Emission emission = new Emission("wind", 12);
+        Emission saved = jpaEmissionRepository.save(emission);
+        List<Emission> emissionList = (List<Emission>) jpaEmissionRepository.findAll();
+
+        assertEquals(4, emissionList.size());
     }
 
     @Test
-    void findByType() {
+    @Order(2)
+    void ShouldFindEmissionByType() {
         Emission found = jpaEmissionRepository.getByType("hydro");
 
-        assertNotNull(found);
+        assertEquals("hydro", found.getType());
     }
 
     @Test
     @Order(1)
-    void shouldStoreEmission() {
+    void shouldSaveEmission() {
         Emission emission = new Emission("hydro", 23);
         Emission saved = jpaEmissionRepository.save(emission);
 
-        assertEquals(emission, saved);
+        assertEquals(saved, emission);
     }
 
     @Test
-    void saveAll() {
+    @Order(1)
+    void ShouldSaveAllEmissions() {
+        List<Emission> emissions = new ArrayList<>();
+        emissions.add(new Emission("nuclear", 12));
+        emissions.add(new Emission("coal", 820));
+        List<Emission> emissionList = (List<Emission>) jpaEmissionRepository.saveAll(emissions);
+
+        assertEquals(2, emissionList.size());
     }
 
     @Test
-    void deleteByType() {
+    void ShouldDeleteEmissionByType() {
+        jpaEmissionRepository.deleteByType("nuclear");
+        Emission found = jpaEmissionRepository.getByType("nuclear");
 
+        assertNull(found);
     }
 }

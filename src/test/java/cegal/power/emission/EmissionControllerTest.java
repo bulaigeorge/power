@@ -13,7 +13,7 @@ import org.springframework.http.ResponseEntity;
 import static org.junit.jupiter.api.Assertions.*;
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.DEFINED_PORT)
-class EmissionServiceTest {
+class EmissionControllerTest {
 
     @Autowired
     TestRestTemplate restTemplate;
