@@ -8,8 +8,11 @@ import java.util.List;
 @Repository
 public class EmissionRepository {
 
+    private final JpaEmissionRepository jpaEmissionRepository;
     @Autowired
-    private JpaEmissionRepository jpaEmissionRepository;
+    public EmissionRepository(JpaEmissionRepository jpaEmissionRepository) {
+        this.jpaEmissionRepository = jpaEmissionRepository;
+    }
 
     public List<Emission> findAll() {
         return (List<Emission>) jpaEmissionRepository.findAll();

@@ -8,8 +8,11 @@ import java.util.List;
 @Repository
 public class LocationRepository {
 
+    private final JpaLocationRepository jpaLocationRepository;
     @Autowired
-    private JpaLocationRepository jpaLocationRepository;
+    public LocationRepository(JpaLocationRepository jpaLocationRepository) {
+        this.jpaLocationRepository = jpaLocationRepository;
+    }
 
     public List<Location> findAll() {
         return (List<Location>) jpaLocationRepository.findAll();

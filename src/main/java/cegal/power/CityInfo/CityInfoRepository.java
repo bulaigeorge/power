@@ -8,8 +8,11 @@ import java.util.List;
 @Repository
 public class CityInfoRepository {
 
+    private final JpaCityInfoRepository jpaCityInfoRepository;
     @Autowired
-    private JpaCityInfoRepository jpaCityInfoRepository;
+    public CityInfoRepository(JpaCityInfoRepository jpaCityInfoRepository) {
+        this.jpaCityInfoRepository = jpaCityInfoRepository;
+    }
 
     public List<CityInfo> findALl() {
         return (List<CityInfo>) jpaCityInfoRepository.findAll();

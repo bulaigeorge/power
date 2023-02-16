@@ -8,8 +8,11 @@ import java.util.List;
 @Service
 public class EmissionService {
 
+    private final EmissionRepository emissionRepository;
     @Autowired
-    private EmissionRepository emissionRepository;
+    public EmissionService(EmissionRepository emissionRepository) {
+        this.emissionRepository = emissionRepository;
+    }
 
     public List<Emission> findALlEmissions() {
         return emissionRepository.findAll();

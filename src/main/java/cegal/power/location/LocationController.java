@@ -2,6 +2,7 @@ package cegal.power.location;
 
 import cegal.power.location.LocationDTOs.LocationDTO;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataAccessException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -14,8 +15,12 @@ import java.util.List;
 @CrossOrigin
 public class LocationController {
 
+
+    private final LocationService locationService;
     @Autowired
-    private LocationService locationService;
+    public LocationController(LocationService locationService) {
+        this.locationService = locationService;
+    }
 
     @GetMapping
     ResponseEntity<List<Location>> findAllLocations() {
@@ -33,13 +38,7 @@ public class LocationController {
 
     @PostMapping
     ResponseEntity<?> saveLocation(@RequestBody LocationDTO locationDTO) {
-        Location location = new Location(locationDTO.month(),
-                String.valueOf(locationDTO.year()),
-                locationDTO.city(),
-                locationDTO.power(),
-                locationDTO.unitPrice(),
-                locationDTO.units(),
-                locationDTO.source());
+        Location location = new Location(locationDTO);
 
         if (locationService.findAllLocations().contains(location)) {
             return new ResponseEntity<Error>(HttpStatus.CONFLICT);
@@ -47,7 +46,7 @@ public class LocationController {
         Location created;
         try {
             created = locationService.saveLocation(location);
-        } catch (Exception e) {
+        } catch (DataAccessException e) {
             return ResponseEntity.badRequest().build();
         }
         return ResponseEntity.created(URI.create("api/location/" + created.getId())).body(created);
@@ -55,18 +54,12 @@ public class LocationController {
 
     @PostMapping("/all")
     ResponseEntity<List<Location>> saveAllLocations(@RequestBody List<LocationDTO> locationsDTO) {
-        List<Location> locations = locationsDTO.stream().map(locationDTO -> new Location(locationDTO.month(),
-                String.valueOf(locationDTO.year()),
-                locationDTO.city(),
-                locationDTO.power(),
-                locationDTO.unitPrice(),
-                locationDTO.units(),
-                locationDTO.source())).toList();
+        List<Location> locations = locationsDTO.stream().map(Location::new).toList();
 
         List<Location> created;
         try {
             created = locationService.saveAll(locations);
-        } catch (Exception e) {
+        } catch (DataAccessException e) {
             return ResponseEntity.badRequest().build();
         }
         return ResponseEntity.created(URI.create("api/location/")).body(created);
@@ -79,7 +72,7 @@ public class LocationController {
             location.setId(found.getId());
             Location updated = locationService.saveLocation(location);
             return ResponseEntity.ok(updated);
-        } catch (Exception e) {
+        } catch (DataAccessException e) {
             return ResponseEntity.badRequest().build();
         }
     }

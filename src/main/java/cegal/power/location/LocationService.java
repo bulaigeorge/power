@@ -8,8 +8,11 @@ import java.util.List;
 @Service
 public class LocationService {
 
+    private final LocationRepository locationRepository;
     @Autowired
-    private LocationRepository locationRepository;
+    public LocationService(LocationRepository locationRepository) {
+        this.locationRepository = locationRepository;
+    }
 
     public List<Location> findAllLocations() {
         return locationRepository.findAll();

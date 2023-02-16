@@ -20,12 +20,12 @@ public class CityInfo {
 
     public CityInfo() {};
 
-    public CityInfo(String city, int totalConsumption, int totalEmission, int totalCost) {
+    public CityInfo(String city, int totalConsumption, int totalEmission, int totalCost, List<String> months) {
         this.city = city;
         this.totalConsumption = totalConsumption;
         this.totalEmission = totalEmission;
         this.totalCost = totalCost;
-        this.months = new ArrayList<>();
+        this.months = months;
     }
 
     public String getCity() {

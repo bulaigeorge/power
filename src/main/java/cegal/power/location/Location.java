@@ -1,5 +1,6 @@
 package cegal.power.location;
 
+import cegal.power.location.LocationDTOs.LocationDTO;
 import jakarta.persistence.*;
 
 @Entity
@@ -16,14 +17,14 @@ public class Location {
 
     public Location() {};
 
-    public Location(String month, String year, String city, String powerType, int unitPrice, int units, String source) {
-        this.month = month;
-        this.year = year;
-        this.city = city;
-        this.powerType = powerType;
-        this.unitPrice = unitPrice;
-        this.units = units;
-        this.source = source;
+    public Location(LocationDTO locationDTO) {
+        this.month = locationDTO.month();
+        this.year = String.valueOf(locationDTO.year());
+        this.city = locationDTO.city();
+        this.powerType = locationDTO.power();
+        this.unitPrice = locationDTO.unitPrice();
+        this.units = locationDTO.units();
+        this.source = locationDTO.source();
     }
 
     public int getId() {

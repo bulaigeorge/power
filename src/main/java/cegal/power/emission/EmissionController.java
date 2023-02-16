@@ -1,6 +1,7 @@
 package cegal.power.emission;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataAccessException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -13,8 +14,12 @@ import java.util.List;
 @CrossOrigin
 public class EmissionController {
 
+
+    private final EmissionService emissionService;
     @Autowired
-    private EmissionService emissionService;
+    public EmissionController(EmissionService emissionService) {
+        this.emissionService = emissionService;
+    }
 
     @GetMapping
     ResponseEntity<List<Emission>> findAllEmissions() {
@@ -39,7 +44,7 @@ public class EmissionController {
         Emission created;
         try {
             created = emissionService.saveEmission(emission);
-        } catch (Exception e) {
+        } catch (DataAccessException e) {
             return ResponseEntity.badRequest().build();
         }
         return ResponseEntity.created(URI.create("api/emission/" + created.getId())).body(created);
@@ -50,20 +55,20 @@ public class EmissionController {
         List<Emission> created;
         try {
             created = emissionService.saveAll(emissions);
-        } catch (Exception e) {
+        } catch (DataAccessException e) {
             return ResponseEntity.badRequest().build();
         }
         return ResponseEntity.created(URI.create("api/emission/")).body(created);
     }
 
-    @PutMapping("/{type}")
-    ResponseEntity<Emission> updateEmission(@PathVariable String type, @RequestBody Emission emission) {
+    @PutMapping
+    ResponseEntity<Emission> updateEmission(@RequestBody Emission emission) {
         try {
-            Emission found = emissionService.findEmission(type);
+            Emission found = emissionService.findEmission(emission.getType());
             emission.setId(found.getId());
             Emission updated = emissionService.saveEmission(emission);
             return ResponseEntity.ok(updated);
-        } catch (Exception e) {
+        } catch (DataAccessException e) {
             return ResponseEntity.badRequest().build();
         }
     }

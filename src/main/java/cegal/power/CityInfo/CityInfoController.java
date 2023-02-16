@@ -2,6 +2,7 @@ package cegal.power.CityInfo;
 
 import cegal.power.CityInfo.CityInfoDTOs.CityInfoMonthDTO;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataAccessException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -14,8 +15,11 @@ import java.util.List;
 @CrossOrigin
 public class CityInfoController {
 
+    private final CityInfoService cityInfoService;
     @Autowired
-    private CityInfoService cityInfoService;
+    public CityInfoController(CityInfoService cityInfoService) {
+        this.cityInfoService = cityInfoService;
+    }
 
     @GetMapping
     ResponseEntity<List<CityInfo>> findALlCities() {
@@ -49,10 +53,21 @@ public class CityInfoController {
         CityInfo created;
         try {
             created = cityInfoService.saveCity(city);
-        } catch (Exception e) {
+        } catch (DataAccessException e) {
             return ResponseEntity.badRequest().build();
         }
         return ResponseEntity.created(URI.create("api/information/" + created.getId())).body(created);
+    }
+
+    @PutMapping("/{city}")
+    ResponseEntity<CityInfo> updateCityInfo(@PathVariable String city) {
+        try {
+            CityInfo found = cityInfoService.findByCity(city);
+            CityInfo updated = cityInfoService.updateCity(found);
+            return ResponseEntity.ok(updated);
+        } catch (DataAccessException e) {
+            return ResponseEntity.badRequest().build();
+        }
     }
 
     @DeleteMapping("/{city}")
