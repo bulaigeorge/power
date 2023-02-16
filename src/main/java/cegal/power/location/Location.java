@@ -3,6 +3,8 @@ package cegal.power.location;
 import cegal.power.location.LocationDTOs.LocationDTO;
 import jakarta.persistence.*;
 
+import java.util.Objects;
+
 @Entity
 @Table(name = "location")
 public class Location {
@@ -106,5 +108,10 @@ public class Location {
                 unitPrice == location.getUnitPrice() &&
                 units == location.getUnits() &&
                 source.equals(location.getSource());
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, month, year, city, powerType, source, unitPrice, units);
     }
 }
