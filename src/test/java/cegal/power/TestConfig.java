@@ -3,6 +3,10 @@ package cegal.power;
 import cegal.power.emission.Emission;
 
 import cegal.power.emission.EmissionService;
+import cegal.power.location.Location;
+import cegal.power.location.LocationDTOs.LocationDTO;
+import cegal.power.location.LocationService;
+import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -19,7 +23,7 @@ public class TestConfig {
 
     @Bean
     @Primary
-    public EmissionService mockService() {
+    public EmissionService mockEmissionService() {
         EmissionService emissionService = Mockito.mock(EmissionService.class);
         Emission hydro = new Emission("hydro", 23);
         Emission nuclear = new Emission("nuclear", 12);
@@ -39,5 +43,29 @@ public class TestConfig {
         Mockito.when(emissionService.saveAll(emissions)).thenReturn(List.of(nuclear, coal, wind));
 
         return emissionService;
+    }
+
+    @Bean
+    @Primary
+    public LocationService mockLocationService() {
+        LocationService locationService = Mockito.mock(LocationService.class);
+        LocationDTO oslo = new LocationDTO("01", 2022, "Oslo", "hydro", 40, 120, "Akerselva");
+        LocationDTO paris = new LocationDTO("01", 2022, "Paris", "nuclear", 100, 3, "Mongolia");
+        LocationDTO berlin = new LocationDTO("01", 2022, "Berlin", "wind", 50, 70, "landbased");
+        LocationDTO stockholm = new LocationDTO("01", 2022, "Stockholm", "wind", 50, 70, "landbased");
+        List<Location> locations = new ArrayList<>();
+        locations.add(new Location(oslo));
+        locations.add(new Location(paris));
+        locations.add(new Location(berlin));
+
+
+        Mockito.when(locationService.findAllLocations()).thenReturn(List.of(new Location(oslo), new Location(paris), new Location(berlin)));
+        Mockito.when(locationService.findById("1")).thenReturn(new Location(oslo));
+
+        Mockito.when(locationService.saveLocation(new Location(stockholm))).thenReturn((new Location(stockholm)));
+        Mockito.when(locationService.saveLocation(new Location(oslo))).thenReturn((new Location(oslo)));
+        Mockito.when(locationService.saveAll(locations)).thenReturn(List.of(new Location(oslo), new Location(paris), new Location(berlin)));
+
+        return locationService;
     }
 }

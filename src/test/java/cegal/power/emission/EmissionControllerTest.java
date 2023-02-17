@@ -94,6 +94,7 @@ class EmissionControllerTest {
     }
 
     @Test
+    @Order(4)
     void ShouldReturn204ForDeleteEmission() {
         //act
         ResponseEntity<Emission> response = restTemplate.exchange(baseUri + configPort + "/api/emission/nuclear", HttpMethod.DELETE, new HttpEntity<Emission>(new HttpHeaders()), Emission.class);

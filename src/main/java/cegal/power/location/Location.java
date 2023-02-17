@@ -95,19 +95,10 @@ public class Location {
 
     @Override
     public boolean equals(Object o) {
-        if (o == this) {
-            return true;
-        }
-        if (!(o instanceof Location location))
-            return false;
-
-        return month.equals(location.getMonth()) &&
-                year.equals(location.getYear()) &&
-                city.equals(location.getCity()) &&
-                powerType.equals(location.getPowerType()) &&
-                unitPrice == location.getUnitPrice() &&
-                units == location.getUnits() &&
-                source.equals(location.getSource());
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Location location = (Location) o;
+        return id == location.id && unitPrice == location.unitPrice && units == location.units && month.equals(location.month) && year.equals(location.year) && city.equals(location.city) && powerType.equals(location.powerType) && source.equals(location.source);
     }
 
     @Override

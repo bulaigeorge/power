@@ -4,6 +4,7 @@ import jakarta.persistence.*;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 @Entity
 @Table(name = "city_info")
@@ -74,5 +75,18 @@ public class CityInfo {
 
     public void setMonths(List<String> emissionPerMonth) {
         this.months = emissionPerMonth;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        CityInfo cityInfo = (CityInfo) o;
+        return id == cityInfo.id && totalConsumption == cityInfo.totalConsumption && totalEmission == cityInfo.totalEmission && totalCost == cityInfo.totalCost && city.equals(cityInfo.city) && months.equals(cityInfo.months);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, city, totalConsumption, totalEmission, totalCost, months);
     }
 }

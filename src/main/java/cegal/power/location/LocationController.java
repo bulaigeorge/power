@@ -66,7 +66,8 @@ public class LocationController {
     }
 
     @PutMapping("/{id}")
-    ResponseEntity<Location> updateLocation(@PathVariable String id, @RequestBody Location location) {
+    ResponseEntity<Location> updateLocation(@PathVariable String id, @RequestBody LocationDTO locationDTO) {
+        Location location = new Location(locationDTO);
         try {
             Location found = locationService.findById(id);
             location.setId(found.getId());
