@@ -1,6 +1,5 @@
 package cegal.power.location;
 
-import cegal.power.emission.Emission;
 import cegal.power.location.LocationDTOs.LocationDTO;
 import org.junit.jupiter.api.MethodOrderer;
 import org.junit.jupiter.api.Order;

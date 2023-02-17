@@ -1,7 +1,6 @@
 package cegal.power.CityInfo;
 
 import cegal.power.CityInfo.CityInfoDTOs.CityInfoMonthDTO;
-import cegal.power.location.Location;
 import org.junit.jupiter.api.MethodOrderer;
 import org.junit.jupiter.api.Order;
 import org.junit.jupiter.api.Test;
