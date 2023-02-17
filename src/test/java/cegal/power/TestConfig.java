@@ -1,5 +1,8 @@
 package cegal.power;
 
+import cegal.power.CityInfo.CityInfo;
+import cegal.power.CityInfo.CityInfoDTOs.CityInfoMonthDTO;
+import cegal.power.CityInfo.CityInfoService;
 import cegal.power.emission.Emission;
 
 import cegal.power.emission.EmissionService;
@@ -15,6 +18,7 @@ import org.springframework.context.annotation.Primary;
 import org.springframework.test.context.ActiveProfiles;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 @Configuration
@@ -67,5 +71,25 @@ public class TestConfig {
         Mockito.when(locationService.saveAll(locations)).thenReturn(List.of(new Location(oslo), new Location(paris), new Location(berlin)));
 
         return locationService;
+    }
+
+    @Bean
+    @Primary
+    public CityInfoService mockCityInfoService() {
+        CityInfoService cityInfoService = Mockito.mock(CityInfoService.class);
+        String[] months = new String[]{"01", "02", "03"};
+        CityInfo oslo = new CityInfo("Oslo", 9999, 14903, 23000, Arrays.asList(months));
+        CityInfo paris = new CityInfo("Paris", 9999, 14903, 23000, Arrays.asList(months));
+        CityInfo berlin = new CityInfo("Berlin", 9999, 14903, 23000, Arrays.asList(months));
+
+        Mockito.when(cityInfoService.findALlCities()).thenReturn(List.of(oslo, paris));
+        Mockito.when(cityInfoService.findByCity("Berlin")).thenReturn(berlin);
+        Mockito.when(cityInfoService.findByCity("Paris")).thenReturn(paris);
+        Mockito.when(cityInfoService.findByCityAndMonth("Berlin", "01")).thenReturn(new CityInfoMonthDTO("Berlin", "01", 3000));
+
+        Mockito.when(cityInfoService.saveCity("Oslo")).thenReturn(oslo);
+        Mockito.when(cityInfoService.updateCity(paris)).thenReturn(paris);
+
+        return cityInfoService;
     }
 }

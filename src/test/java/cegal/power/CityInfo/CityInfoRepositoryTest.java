@@ -23,8 +23,6 @@ class CityInfoRepositoryTest {
     String[] months = new String[]{"01", "02", "03"};
 
     private CityInfo oslo = new CityInfo("Oslo", 9999, 14903, 23000, Arrays.asList(months));
-    private CityInfo paris = new CityInfo("Paris", 9999, 14903, 23000, Arrays.asList(months));
-    private CityInfo berlin = new CityInfo("Berlin", 9999, 14903, 23000, Arrays.asList(months));
 
     List<CityInfo> cities = new ArrayList<>();
 
